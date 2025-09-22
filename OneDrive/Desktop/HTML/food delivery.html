@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food On Time</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="logo" width="100" height="60">
+        </div>
+        <nav>
+            <ul id="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#newsletter">Subscribe</a></li>
+                <li><a href="login.html" class="login-btn">Login</a></li>
+            </ul>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <section>
+            <h1>Food On Time</h1>
+            <p>Find the best restaurants, cafés, and bars in India</p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search Your Favourite Food!!">
+                <button id="searchBtn">Search</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>About Us</h2>
+        <p>
+            Food On Time is your one-stop online food delivery service. We partner with top restaurants 
+            to bring you delicious meals right to your doorstep. Whether you're craving pizza, 
+            biryani, or desserts, we’ve got you covered — fast, fresh, and affordable.
+        </p>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <h2>Popular Dishes</h2>
+        <div class="menu-items">
+            <div class="card">
+                <img src="img/pizza.png" alt="Pizza">
+                <h3>Pizza</h3>
+                <p>Cheesy and loaded with toppings.</p>
+                <button>Order Now</button>
+            </div>
+            <div class="card">
+                <img src="img/biryani.jpg" alt="Biryani">
+                <h3>Biryani</h3>
+                <p>Flavourful and aromatic rice dish.</p>
+                <button>Order Now</button>
+            </div>
+            <div class="card">
+                <img src="img/burger.jpg" alt="Burger">
+                <h3>Burger</h3>
+                <p>Juicy patties with fresh veggies.</p>
+                <button>Order Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonial-container">
+            <div class="testimonial">
+                <p>"Fast delivery, hot food, and excellent taste!"</p>
+                <h4>- Priya S.</h4>
+            </div>
+            <div class="testimonial">
+                <p>"Loved the biryani! Will definitely order again."</p>
+                <h4>- Rahul K.</h4>
+            </div>
+            <div class="testimonial">
+                <p>"Great variety and very affordable prices."</p>
+                <h4>- Sneha M.</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="newsletter">
+        <h2>Subscribe to Our Newsletter</h2>
+        <p>Get the latest food deals and offers directly to your inbox!</p>
+        <form id="newsletterForm">
+            <input type="email" id="emailInput" placeholder="Enter your email">
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <h2>Hungry? Get Your Food Delivered Now!</h2>
+        <button onclick="alert('Redirecting to Order Page...')">Order Now</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Food On Time. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

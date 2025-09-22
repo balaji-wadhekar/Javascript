@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BFS Tree Visualization</title>
+<style>
+  body {
+    font-family: "Segoe UI", sans-serif;
+    text-align: center;
+    background: linear-gradient(to right, #e3f2fd, #fce4ec);
+    margin: 0;
+    padding: 20px;
+  }
+  h1 { color: #2c3e50; margin-bottom: 20px; }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: none;
+    background: linear-gradient(135deg, #42a5f5, #1976d2);
+    color: white;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  button:hover { background: linear-gradient(135deg, #64b5f6, #1e88e5); }
+  .tree { display: flex; flex-direction: column; align-items: center; position: relative; }
+  .level { display: flex; justify-content: center; gap: 100px; margin: 50px 0; }
+  .level:nth-child(3) { gap: 60px; }
+  .node {
+    width: 40px; height: 40px;
+    border: 2px solid #34495e;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: white; font-weight: bold; font-size: 16px;
+    position: relative; z-index: 2;
+    transition: all 0.5s;
+  }
+  .node.highlight {
+    background: #4caf50; color: white; transform: scale(1.3);
+    box-shadow: 0 0 20px #2ecc71;
+  }
+  svg { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+  #output { margin-top: 20px; padding: 15px; background: white; border-radius: 10px; width: 70%; margin:auto; }
+  #order { font-size: 18px; font-weight: bold; color: #2c3e50; }
+</style>
+</head>
+<body>
+
+<h1>Level Order Traversal </h1>
+<button onclick="startTraversal()">Start Traversal</button>
+
+<div class="tree">
+  <svg id="lines"></svg>
+
+  <div class="level">
+    <div class="node" id="n1">1</div>
+  </div>
+
+  <div class="level">
+    <div class="node" id="n2">2</div>
+    <div class="node" id="n3">3</div>
+  </div>
+
+  <div class="level">
+    <div class="node" id="n4">4</div>
+    <div class="node" id="n5">5</div>
+    <div class="node" id="n6">6</div>
+  </div>
+</div>
+
+<div id="output">
+  <h3>Traversal Order:</h3>
+  <p id="order"></p>
+</div>
+
+<script>
+const traversalOrder = [1,2,3,4,5,6];
+const parentMap = {2:1, 3:1, 4:2, 5:2, 6:3};
+let index = 0;
+
+function startTraversal(){
+  document.querySelectorAll(".node").forEach(n => n.classList.remove("highlight"));
+  document.getElementById("lines").innerHTML = "";
+  document.getElementById("order").innerText = "";
+  index = 0;
+
+  const interval = setInterval(()=>{
+    if(index < traversalOrder.length){
+      let nodeId = "n"+traversalOrder[index];
+      let node = document.getElementById(nodeId);
+      node.classList.add("highlight");
+      document.getElementById("order").innerText += traversalOrder[index]+" ";
+
+      if(parentMap[traversalOrder[index]]){
+        let parentNode = document.getElementById("n"+parentMap[traversalOrder[index]]);
+        drawLine(parentNode, node);
+      }
+
+      index++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 1200);
+}
+
+function drawLine(parent, child){
+  const svg = document.getElementById("lines");
+  const r1 = parent.getBoundingClientRect();
+  const r2 = child.getBoundingClientRect();
+  const svgRect = svg.getBoundingClientRect();
+
+  const x1 = r1.left + r1.width/2 - svgRect.left;
+  const y1 = r1.top + r1.height/2 - svgRect.top;
+  const x2 = r2.left + r2.width/2 - svgRect.left;
+  const y2 = r2.top + r2.height/2 - svgRect.top;
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",x1);
+  line.setAttribute("y1",y1);
+  line.setAttribute("x2",x1);
+  line.setAttribute("y2",y1);
+  line.setAttribute("stroke","#555");
+  line.setAttribute("stroke-width","2");
+  svg.appendChild(line);
+
+  let progress = 0;
+  const anim = setInterval(()=>{
+    progress += 0.05;
+    line.setAttribute("x2", x1 + (x2-x1)*progress);
+    line.setAttribute("y2", y1 + (y2-y1)*progress);
+    if(progress>=1) clearInterval(anim);
+  }, 20);
+}
+</script>
+</body>
+</html>
