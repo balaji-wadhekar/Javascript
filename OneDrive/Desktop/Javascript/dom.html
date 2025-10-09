@@ -1,0 +1,46 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Button with JS</title>
+</head>
+<body style="background:black; color:white;">
+
+    <h2>Button Created with JavaScript</h2>
+    <div id="demo" class="display">What is your Name </div>
+    <div id="btnContainer"></div>
+    <textarea id="disp" >   </textarea>
+
+    <body>
+        <script>
+        // Create button element
+        let btn = document.createElement("button");
+
+        // Set button text
+        btn.innerText = "Click Me";
+
+        // Set styles
+        btn.style.padding = "10px 20px";
+        btn.style.backgroundColor = "aqua";
+        btn.style.border = "none";
+        btn.style.borderRadius = "10px";
+        btn.style.cursor = "pointer";
+        btn.style.fontSize = "16px";
+
+        // Add onclick function
+        btn.onclick = function() {
+            alert("Button Clicked!");
+
+             document.querySelector(".class").addEventListener("demo",()=>
+    {
+        alert("butoon value change");
+    })
+
+        };
+       
+        // Append button into container div
+        document.getElementById("btnContainer").appendChild(btn);
+</script>
+</body>
+</html>
