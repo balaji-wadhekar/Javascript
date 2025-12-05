@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body
+        {
+            background-color: rgb(91, 163, 163);
+            text-align: center;
+            margin: 0%;
+            padding: 0%;
+        }
+        #task
+        {
+            margin-top: 0%;
+
+        }
+        input,button
+        {
+          margin-top: 2%;
+            height: 20px;
+            padding-right: 2%;
+        }
+        .done { text-decoration: line-through; }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> TO-Do List </h1><br>
+    <input type="text" id="task" placeholder="Enter Your Task Here...."><br>
+    <button onclick="add()"> Add Task </button>
+    <p id="msg"> </p>
+</body>
+<script>
+    function add()
+    {
+        let input =document.getElementById("task");
+         let taskText=input.value.trim();
+
+         if(input==='')
+         {
+           document.getElementById("msg").innerHTML="Task Is empty !!";
+           return;
+         }
+         else{
+           let li=document.createElement("li");
+           li.textContent=taskText;
+
+     let doneBtn = document.createElement("button");
+     doneBtn.textContent = "✔ Done";
+     doneBtn.onclick = () => li.classList.toggle("done");
+
+       let delbtn = document.createElement("button");
+       delbtn.textContent="❌Delete";
+       delbtn.onclick=()=>li.remove();
+       li.appendChild(doneBtn);
+     li.appendChild(delbtn);
+
+     document.getElementById("msg").appendChild(li);
+
+     input.value="";
+         }
+       
+localStorage.setItem("task", JSON.stringify(task));
+
+    }
+</script>
+</html>

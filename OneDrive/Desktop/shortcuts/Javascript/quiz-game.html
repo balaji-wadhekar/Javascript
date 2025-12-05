@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Game with Back & Next</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+    }
+    .quiz-container {
+      width: 400px;
+      margin: 80px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    }
+    #qNo {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+    .options button:hover {
+      background: #2980b9;
+    }
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .nav-buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+    }
+    #backBtn { background: #e67e22; display: none; }
+    #nextBtn { background: #27ae60; display: none; }
+    #timer {
+      font-size: 18px;
+      margin: 10px 0;
+      color: #e74c3c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <div id="qNo">Question 1 of 3</div>
+    <h2 id="question">Question text</h2>
+    <div id="timer">Time Left: 10s</div>
+    <div class="options" id="options"></div>
+
+    <div class="nav-buttons">
+      <button id="backBtn">← Back</button>
+      <button id="nextBtn">Next →</button>
+    </div>
+
+    <h3 id="result"></h3>
+  </div>
+
+  <script>
+    const quiz = [
+      {
+        question: "What is the capital of India?",
+        options: ["Delhi", "Mumbai", "Kolkata", "Chennai"],
+        answer: "Delhi"
+      },
+      {
+        question: "Which language is used for web development?",
+        options: ["Python", "Java", "C++", "JavaScript"],
+        answer: "JavaScript"
+      },
+      {
+        question: "Who is known as the father of Computers?",
+        options: ["Charles Babbage", "Alan Turing", "Newton", "Tesla"],
+        answer: "Charles Babbage"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let timeLeft = 10;
+    let timer;
+    let userAnswers = {}; // store user’s answers for back navigation
+
+    const qNoEl = document.getElementById("qNo");
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const backBtn = document.getElementById("backBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+
+    function startTimer() {
+      timeLeft = 10;
+      timerEl.textContent = `Time Left: ${timeLeft}s`;
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          resultEl.textContent = "⏰ Time's up!";
+          showCorrectAnswer();
+          nextBtn.style.display = "block";
+        }
+      }, 1000);
+    }
+
+    function loadQuestion() {
+      let q = quiz[currentQuestion];
+      qNoEl.textContent = `Question ${currentQuestion + 1} of ${quiz.length}`;
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      resultEl.textContent = "";
+
+      q.options.forEach(opt => {
+        let btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt);
+        if (userAnswers[currentQuestion] === opt) {
+          btn.style.background = "#16a085"; // highlight previous answer
+        }
+        optionsEl.appendChild(btn);
+      });
+
+      backBtn.style.display = currentQuestion > 0 ? "inline-block" : "none";
+      nextBtn.style.display = userAnswers[currentQuestion] ? "inline-block" : "none";
+
+      startTimer();
+    }
+
+    function checkAnswer(selected) {
+      clearInterval(timer);
+      userAnswers[currentQuestion] = selected; // save answer
+      let correct = quiz[currentQuestion].answer;
+
+      if (selected === correct) {
+        resultEl.textContent = "✅ Correct!";
+      } else {
+        resultEl.textContent = "❌ Wrong! Correct answer: " + correct;
+      }
+      disableOptions();
+      nextBtn.style.display = "inline-block";
+    }
+
+    function showCorrectAnswer() {
+      let correct = quiz[currentQuestion].answer;
+      disableOptions();
+      resultEl.textContent += ` (Correct: ${correct})`;
+    }
+
+    function disableOptions() {
+      const buttons = optionsEl.querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+    }
+
+    nextBtn.onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < quiz.length) {
+        loadQuestion();
+      } else {
+        clearInterval(timer);
+        qNoEl.textContent = "";
+        questionEl.textContent = "🎉 Quiz Over!";
+        optionsEl.innerHTML = "";
+        backBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        timerEl.textContent = "";
+        // calculate final score
+        score = Object.keys(userAnswers).filter(
+          qIndex => userAnswers[qIndex] === quiz[qIndex].answer
+        ).length;
+        resultEl.textContent = `Your Score: ${score}/${quiz.length}`;
+      }
+    };
+
+    backBtn.onclick = () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    };
+
+    // Start Quiz
+    loadQuestion();
+  </script>
+
+</body>
+</html>

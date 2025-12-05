@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: aquamarine;
+            text-align: center;
+        }
+        #no {
+            width: 160px;
+            height: 20px;
+            padding-left: 2%;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 12px;
+            margin-top: 2%;
+        }
+    </style>
+
+    <title>No Guessing Game</title>
+</head>
+
+<body>
+    <h1>No Guessing Game</h1>
+
+    <input type="number" id="no" placeholder="Enter Any Number"> 
+    <br>
+
+    <button onclick="guess()">Guess No</button>
+    
+    <p id="attempts">Attempts: 0</p>
+    <p id="message"></p>
+</body>
+
+<script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    let Attempts = 0;
+    let maxatmp=2;
+
+    function guess() {
+        const guessno = Number(document.getElementById("no").value);
+        Attempts++;
+
+        document.getElementById("attempts").textContent = "Attempts: " + Attempts;
+
+        if (guessno === randomNumber) {
+            document.getElementById("message").textContent = "🎉 Correct Number!";
+            alert("🎉 YOU WIN!");
+            document.getElementById("no").disabled=true;
+        }
+        else if (guessno > randomNumber) {
+            document.getElementById("message").textContent = "📈 Number is too High!";
+             
+        }
+        else if (guessno < randomNumber) {
+            document.getElementById("message").textContent = "📉 Number is too Low!";
+        }
+        if(Attempts>=maxatmp && guessno !== randomNumber)
+        {
+            document.getElementById("message").innerText=" Game Over ! Number is "+randomNumber;
+            document.getElementById("no").disabled=true;
+        }
+        document.getElementById("no").value='';
+    }
+</script>
+</html>

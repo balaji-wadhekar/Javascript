@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Guess the Number Game</h1>
+    <p>Guess a number between 1 and 100</p>
+    
+    <input type="number" id="guessInput" placeholder="Enter your guess">
+    <button onclick="checkGuess()">Guess</button>
+    
+    <p id="attempts">Attempts: 0</p>
+    <p id="message"></p>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+        let maxAttempts = 10;
+
+        function checkGuess() {
+            const userGuess = Number(document.getElementById("guessInput").value);
+            attempts++;
+            document.getElementById("attempts").innerText = `Attempts: ${attempts}`;
+
+            if(userGuess === randomNumber) {
+                document.getElementById("message").innerText = `🎉 Congratulations! You guessed it in ${attempts} attempts.`;
+                document.getElementById("guessInput").disabled = true;
+            } else if(userGuess < randomNumber) {
+                document.getElementById("message").innerText = "Too low! Try a bigger number.";
+            } else if(userGuess > randomNumber) {
+                document.getElementById("message").innerText = "Too high! Try a smaller number.";
+            }
+
+            if(attempts >= maxAttempts && userGuess !== randomNumber) {
+                document.getElementById("message").innerText = `Game Over! The number was ${randomNumber}.`;
+                document.getElementById("guessInput").disabled = true;
+            }
+
+           document.getElementById("guessInput").value = '';
+            document.getElementById("guessInput").focus();
+        }
+    </script>
+
+</body>
+</html>
