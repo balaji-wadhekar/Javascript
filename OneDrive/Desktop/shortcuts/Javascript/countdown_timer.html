@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body
+        {
+            background-color: blueviolet;
+            text-align: center;
+            margin: 0%;
+            padding: 0%;
+            justify-content: center;
+            justify-items: center;
+        }
+        input,button
+        {
+            margin-top: 1%;
+            padding-left: 1%;
+            border-radius: 5%;
+            animation-duration: 1ms;
+        }
+        
+      .timer {
+    background-color: rgb(212, 212, 123);
+    padding: 20px;
+    height: 110px;
+    width: 90px;
+
+    display: flex;            
+    justify-content: center; 
+    align-items: center;      
+
+    text-align: center;
+    font-size: 26px;
+    border: 2px solid black;
+    margin-top: 3%;
+}
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Count Down Timer </h1>
+    <input type="number" id="hour" placeholder="Enter Hour"><br>
+    <input type="number" id="minute" placeholder="Enter Minute "> <br>
+    <input type="number" id="second" placeholder="Enter Second "> <br>
+    <button onclick="startTimer()">Start Timer </button>
+    <div class="timer" id="timer">00:00:00</div>
+    
+</body>
+<script>
+   let countdown; // to store interval
+
+function startTimer() 
+{
+    let h = Number(document.getElementById("hour").value);
+    let m = Number(document.getElementById("minute").value);
+    let s = Number(document.getElementById("second").value);
+
+    document.getElementById("hour").value = "";
+    document.getElementById("minute").value = "";
+    document.getElementById("second").value = "";
+    
+    let total = h * 3600 + m * 60 + s;   // convert to seconds
+    let display = document.getElementById("timer");
+
+    let timer = setInterval(() => {
+
+        let hr = Math.floor(total / 3600);
+        let min = Math.floor((total % 3600) / 60);
+        let sec = total % 60;
+
+        display.textContent =
+            `${String(hr).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+
+        total--;
+
+        if (total < 0) {
+            clearInterval(timer);
+            display.textContent = "Time's up!";
+        }
+
+    }, 1000);
+}
+
+
+</script>
+</html>

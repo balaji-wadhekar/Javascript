@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: blueviolet;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        input, button {
+            margin-top: 1%;
+            padding: 1%;
+            border-radius: 5%;
+        }
+
+        .bulb {
+            margin-top: 20px;
+            width: 150px;
+        }
+
+        /* Glow effect */
+        .glow {
+            filter: drop-shadow(0px 0px 25px yellow);
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulb ON-OFF Game</title>
+</head>
+
+<body>
+
+    <h1>Bulb ON-OFF Game</h1>
+
+    <!-- Correct way: use an image -->
+    <img id="bulb" class="bulb" src="bulboff.png">
+
+    <br><br>
+
+    <button onclick="turnOn()">ON</button>
+    <button onclick="turnOff()">OFF</button>
+
+</body>
+
+<script>
+
+    // Select the bulb image
+    const bulb = document.getElementById("bulb");
+
+    // When ON button is clicked
+    function turnOn() {
+        bulb.src = "bulbonn.png";      // Change to ON image
+        bulb.classList.add("glow");    // Add glow
+    }
+
+    // When OFF button is clicked
+    function turnOff() {
+        bulb.src = "bulboff.png";      // Change to OFF image
+        bulb.classList.remove("glow"); // Remove glow
+    }
+
+</script>
+
+</html>
