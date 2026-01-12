@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Color Picker</title>
+  <style>
+    /* Simple, centered layout */
+    body {
+      background-color: #262323; /* dark background from your code */
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .color-picker {
+      background: #2f2c2c;
+      padding: 18px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+
+    h2 { margin: 0 0 12px 0; font-size: 18px; color: #f3f3f3; }
+    .row { margin: 10px 0; display:flex; gap:8px; align-items:center; justify-content:center; }
+
+    /* preview box */
+    #preview {
+      width: 100%;
+      height: 90px;         /* from your code */
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-family: monospace;
+    }
+
+    /* inputs & button */
+    input[type="color"] { width: 48px; height: 48px; padding:0; border:0; cursor:pointer; }
+    input[type="text"] {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: #fff;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #hexDisplay { font-family: monospace; text-align:center; padding:6px; border-radius:6px; background: rgba(0,0,0,0.1); }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      background: #4caf50;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:active { transform: translateY(1px); }
+
+    .muted { color: #cfcfcf; font-size: 13px; margin-top:6px; }
+  </style>
+</head>
+<body>
+
+  <div class="color-picker">
+    <h2>Simple Color Picker</h2>
+
+    <!-- color input -->
+    <div class="row">
+      <input id="colorInput" type="color" value="#ff5722" aria-label="Choose color">
+    </div>
+
+    <!-- preview -->
+    <div id="preview">#ff5722</div>
+
+    <!-- show hex value -->
+    <div class="row" style="margin-top:10px;">
+      <div id="hexDisplay">#ff5722</div>
+    </div>
+
+    <!-- optional name -->
+    <div class="row" style="margin-top:8px;">
+      <input id="nameInput" type="text" placeholder="Enter color name (optional)">
+    </div>
+
+    <!-- copy button -->
+    <div class="row" style="margin-top:10px;">
+      <button id="copyBtn" title="Copy HEX value">Copy HEX</button>
+    </div>
+
+    <div class="muted">Tip: Enter an optional name, or leave it blank. Button copies the HEX value.</div>
+  </div>
+
+  <script>
+    // Elements
+    const colorInput = document.getElementById('colorInput');
+    const preview = document.getElementById('preview');
+    const hexDisplay = document.getElementById('hexDisplay');
+    const copyBtn = document.getElementById('copyBtn');
+
+    // Helper: convert hex (like "#rrggbb" or "#rgb") to {r,g,b}
+    function hexToRgb(hex) {
+      hex = hex.replace('#','').trim();
+      if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join('');
+      }
+      const r = parseInt(hex.slice(0,2), 16);
+      const g = parseInt(hex.slice(2,4), 16);
+      const b = parseInt(hex.slice(4,6), 16);
+      return { r, g, b };
+    }
+
+    // Choose readable text color (black or white) based on brightness
+    function readableTextColor(r,g,b) {
+      // luminance formula (simple)
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness > 150 ? 'black' : 'white';
+    }
+
+    // Update UI when color changes
+    function updateUI(hex) {
+      hex = hex.startsWith('#') ? hex.toLowerCase() : ('#' + hex.toLowerCase());
+      hexDisplay.textContent = hex;
+      preview.textContent = hex;
+      preview.style.background = hex;
+
+      const { r, g, b } = hexToRgb(hex);
+      preview.style.color = readableTextColor(r, g, b);
+    }
+
+    // Event: when user selects a color
+    colorInput.addEventListener('input', (e) => {
+      updateUI(e.target.value);
+    });
+
+    // Copy button: copies HEX value to clipboard
+    copyBtn.addEventListener('click', async () => {
+      const hex = hexDisplay.textContent;
+      try {
+        await navigator.clipboard.writeText(hex);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy HEX', 1100);
+      } catch (err) {
+        // fallback: select a temporary input
+        const temp = document.createElement('input');
+        temp.value = hex;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy HEX', 1100);
+      }
+    });
+
+    // initialize with the starting color
+    updateUI(colorInput.value);
+  </script>
+</body>
+</html>

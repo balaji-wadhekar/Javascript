@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            background-color: rgb(98, 98, 195);
+            text-align: center;
+            padding: 0%;
+          
+        }
+        #bill
+        {
+            height: 20px;
+            margin-bottom: 0%;
+            text-align: center;
+        }
+          #tiper
+        {
+            height: 20px;
+            text-align: center;
+        }
+        input,button
+        {
+            margin-top: 1%;
+            margin-bottom: 0%;
+            height: 20px;
+            text-align: center;
+            border-radius: 5%;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Tip Calculator </h1>
+    <input type="number" id="bill" placeholder="Enter Bill Amount"><br>
+    <input type="number" id="tiper"  placeholder="Enter Tip Percentage"><br>
+    <button onclick="Calculate()">Calculate</button><br>
+    <p id="message"></p>
+    </textarea>
+</body>
+<script>
+ 
+    function Calculate()
+    {
+           let bill=Number(document.getElementById("bill").value);
+        let tiper = Number(document.getElementById("tiper").value);
+     
+      let tip = bill * (tiper / 100)
+     let total = bill + tip;
+document.getElementById("message").innerText="Total Tip Amount is = "+total;
+    }
+</script>
+</html>
