@@ -96,6 +96,116 @@ Smart JS Chatbot
 
 </div>
 
+<script>
+
+function handleKey(event){
+if(event.key === "Enter"){
+sendMessage();
+}
+}
+
+function sendMessage(){
+
+let inputField = document.getElementById("userInput");
+let message = inputField.value.trim();
+
+if(message === "") return;
+
+addMessage("You", message, "user");
+
+let reply = botResponse(message);
+
+setTimeout(()=>{
+addMessage("Bot", reply, "bot");
+},500);
+
+inputField.value="";
+}
+
+function addMessage(sender,text,type){
+
+let chatbox = document.getElementById("chatbox");
+
+let msg = document.createElement("div");
+msg.classList.add("message",type);
+
+msg.innerHTML = "<b>"+sender+":</b> "+text;
+
+chatbox.appendChild(msg);
+
+chatbox.scrollTop = chatbox.scrollHeight;
+
+}
+
+function botResponse(input){
+
+input = input.toLowerCase();
+
+let greetings = ["hello","hi","hey"];
+let help = ["help","support"];
+let name = ["your name","who are you"];
+
+for(let g of greetings){
+if(input.includes(g)){
+return randomReply([
+"Hello!",
+"Hi there!",
+"Hey! How can I help you?"
+]);
+}
+}
+
+for(let n of name){
+if(input.includes(n)){
+return "I am a JavaScript chatbot created to answer basic questions.";
+}
+}
+
+if(input.includes("time")){
+return "Current time is: " + new Date().toLocaleTimeString();
+}
+
+if(input.includes("date")){
+return "Today's date is: " + new Date().toLocaleDateString();
+}
+
+if(input.includes("weather")){
+return "I can't check live weather yet, but you can connect me to a weather API.";
+}
+
+if(input.includes("help")){
+return "You can ask about time, date, greetings, or basic info.";
+}
+
+if(input.includes("bye")){
+return "Goodbye! Have a nice day.";
+}
+
+if(input.includes("java")){
+return "Java is a powerful object-oriented programming language used for backend systems.";
+}
+
+if(input.includes("javascript")){
+return "JavaScript is mainly used for web development to create interactive websites.";
+}
+
+return randomReply([
+"I didn't understand that.",
+"Can you ask something else?",
+"I'm still learning."
+]);
+
+}
+
+function randomReply(list){
+return list[Math.floor(Math.random()*list.length)];
+}
+
+window.onload = ()=>{
+addMessage("Bot","Hello! I am your chatbot. Ask me something.","bot");
+}
+
+</script>
 
 </body>
 </html>
